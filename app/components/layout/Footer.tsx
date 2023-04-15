@@ -1,12 +1,14 @@
+import Image from "next/image";
 import React from "react";
-
+import logo from "../../../public/images/logo.png";
 type Props = {};
 
 const Footer = (props: Props) => {
   return (
-    <footer className="container bg-white text-slate-600">
-      <div className="flex flex-col items-center justify-between gap-4 border-t border-t-slate-200 py-10 md:h-16 px-4 md:flex-row md:py-0">
+    <footer className="container mx-auto bg-white text-slate-600 flex gap-4 items-center">
+      <div className="flex flex-col items-center w-full justify-between gap-4 border-t border-t-slate-300 py-10 md:h-16 px-4 md:flex-row md:py-0">
         <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+          <Image src={logo} width={50} alt="Logo image" />
           <p className="text-center text-sm leading-loose md:text-left">
             Built by{" "}
             <a

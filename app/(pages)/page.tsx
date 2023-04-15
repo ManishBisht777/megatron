@@ -6,9 +6,9 @@ import hero from "../../public/images/hero2.svg";
 
 export default function Home() {
   return (
-    <>
-      <div className="flex flex-col items-start gap-4 lg:w-[52rem]">
-        <Image src={hero} width={250} alt="Hero image" priority />
+    <div className="lg:w-[65rem] container mx-auto mt-6">
+      <div className=" flex flex-col items-start gap-4 ">
+        <Image src={hero} width={260} alt="Hero image" priority />
         <h1 className="text-3xl font-bold leading-[1.1] tracking-tighter sm:text-5xl md:text-6xl">
           What&apos;s going on here?
         </h1>
@@ -30,6 +30,6 @@ export default function Home() {
           GitHub
         </Link>
       </div>
-    </>
+    </div>
   );
 }
