@@ -8,7 +8,7 @@ A one stop open Source app to test all things in one place
 
 ## Roadmap
 
-- [ ] Basic UI
+- [x] ~Basic UI~
 - [ ] Add Next Auth
 - [ ] Prisma and MongoDB Setup
 - [ ] Some Crud Func using Prisma (Images included)
