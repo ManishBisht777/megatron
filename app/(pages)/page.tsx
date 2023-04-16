@@ -18,7 +18,7 @@ export default function Home() {
         </p>
       </div>
       <div className="flex gap-4 mt-3">
-        <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
+        <Link href="/auth/login" className={cn(buttonVariants({ size: "lg" }))}>
           Get Started
         </Link>
         <Link
