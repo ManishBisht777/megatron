@@ -25,7 +25,7 @@ export default withAuth(
       }
 
       return NextResponse.redirect(
-        new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
+        new URL(`/auth/login?from=${encodeURIComponent(from)}`, req.url)
       );
     }
   },
