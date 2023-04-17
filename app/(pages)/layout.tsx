@@ -35,7 +35,7 @@ export default async function MarketingLayout({
           )}
         </div>
       </header>
-      <main className="flex-1 container mx-auto">{children}</main>
+      <main className="flex-1 container mx-auto mt-4">{children}</main>
       <Footer />
     </div>
   );
