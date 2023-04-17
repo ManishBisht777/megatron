@@ -53,6 +53,22 @@ model User{
 
   accounts Account[]
   sessions Session[]
-  
+  post Post[]
   @@map(name:"users")
+}
+
+model Post{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  content Json?
+
+  published Boolean  @default(false)
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name:"updated_at")
+
+  authorId String @db.ObjectId
+
+  author User @relation(fields: [authorId], references: [id])
+
+  @@map(name: "posts")
 }
