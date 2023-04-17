@@ -4,18 +4,15 @@ import { buttonVariants } from "@/app/components/ui/button";
 import { Icons } from "@/app/components/ui/icons";
 import { cn } from "@/app/lib/utils";
 import React from "react";
+import PostCreateButton from "../../components/dashboard/post-create-button";
 
 type Props = {};
 
 const page = (props: Props) => {
   return (
-    <DashboardShell>
+    <DashboardShell className="py-2">
       <DashboardHeader heading="Posts" text="Create and manage posts.">
-        {/* <PostCreateButton /> */}
-        <button className={cn(buttonVariants(), "flex gap-1 items-center")}>
-          <Icons.add className="w-4" />
-          Add Post
-        </button>
+        <PostCreateButton />
       </DashboardHeader>
       <div className="flex min-h-[350px] flex-col items-center justify-center rounded-md border border-dashed p-8 text-center animate-in fade-in-50">
         <div className="mx-auto flex max-w-[420px] flex-col items-center justify-center text-center">
@@ -26,15 +23,12 @@ const page = (props: Props) => {
           <p className="mt-3 mb-8 text-center text-sm font-normal leading-6 text-slate-700">
             You don&apos;t have any posts yet. Start creating content.
           </p>
-          <button
+          <PostCreateButton
             className={cn(
               buttonVariants({ variant: "outline" }),
-              "flex gap-1 items-center"
+              "text-slate-900"
             )}
-          >
-            <Icons.add className="w-4" />
-            New Post
-          </button>
+          />
         </div>
       </div>
     </DashboardShell>
