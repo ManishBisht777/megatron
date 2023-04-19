@@ -38,7 +38,6 @@ const page = async (props: Props) => {
   }
 
   const posts = await getPostsForUser(user.id);
-  console.log(posts);
   return (
     <DashboardShell className="py-2">
       <DashboardHeader heading="Posts" text="Create and manage posts.">
