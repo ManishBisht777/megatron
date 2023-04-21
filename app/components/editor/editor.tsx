@@ -9,14 +9,26 @@ import { Icons } from "../ui/icons";
 import EditorJS from "@editorjs/editorjs";
 import { postPatchSchema } from "@/app/lib/validation/post";
 import TextareaAutosize from "react-textarea-autosize";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type EdtorPageProps = {
   post: Pick<Post, "id" | "title" | "content" | "published">;
 };
 
+type FormData = z.infer<typeof postPatchSchema>;
+
 const Editor = ({ post }: EdtorPageProps) => {
   const [isMounted, setIsMounted] = React.useState<boolean>(false);
+  const [isSaving, setIsSaving] = React.useState<boolean>(false);
+  const router = useRouter();
   const ref = React.useRef<EditorJS>();
+
+  const { register, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(postPatchSchema),
+  });
 
   const initializeEditor = React.useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
@@ -52,6 +64,30 @@ const Editor = ({ post }: EdtorPageProps) => {
     }
   }, [post]);
 
+  async function onSubmit(data: FormData) {
+    setIsSaving(true);
+
+    const blocks = await ref.current?.save();
+
+    const response = await fetch(`/api/posts/${post.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: data.title,
+        content: blocks,
+      }),
+    });
+
+    setIsSaving(false);
+
+    if (!response?.ok) {
+    }
+
+    router.refresh();
+  }
+
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true);
@@ -70,7 +106,7 @@ const Editor = ({ post }: EdtorPageProps) => {
   }, [isMounted, initializeEditor]);
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid w-full gap-10">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center space-x-10">
@@ -88,9 +124,9 @@ const Editor = ({ post }: EdtorPageProps) => {
             </p>
           </div>
           <button type="submit" className={cn(buttonVariants())}>
-            {/* {isSaving && (
+            {isSaving && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )} */}
+            )}
             <span>Save</span>
           </button>
         </div>
@@ -102,7 +138,7 @@ const Editor = ({ post }: EdtorPageProps) => {
             defaultValue={post.title}
             placeholder="Post title"
             className="w-full resize-none appearance-none overflow-hidden text-5xl font-bold focus:outline-none ml-16"
-            // {...register("title")}
+            {...register("title")}
           />
           <div id="editor" className="min-h-[500px]" />
           <p className="text-sm text-gray-500">
