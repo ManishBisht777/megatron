@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./db";
+import { stripe } from "./stripe";
 
 type User = {
   id: string;
@@ -70,4 +71,25 @@ export const authOptions: NextAuthOptions = {
       };
     },
   },
+  // events: {
+  //   createUser: async ({ user }) => {
+  //     // Create a stripe customer for the user with their email address
+  //     await stripe.customers
+  //       .create({
+  //         email: user.email!,
+  //       })
+  //       .then(async (customer) => {
+  //         // Use the Prisma Client to update the user in the database with their new Stripe customer ID
+
+  //         console.log(customer);
+
+  //         // return prisma.user.update({
+  //         //   where: { id: user.id },
+  //         //   data: {
+  //         //     stripeCustomerId: customer.id,
+  //         //   },
+  //         // });
+  //       });
+  //   },
+  // },
 };
