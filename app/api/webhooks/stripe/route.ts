@@ -1,10 +1,8 @@
 import { prisma } from "@/app/lib/db";
 import { stripe } from "@/app/lib/stripe";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import Stripe from "stripe";
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { buffer } from "micro";
 
 export const config = {
   api: {
@@ -12,13 +10,11 @@ export const config = {
   },
 };
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const headersList = headers();
-  const signature = headersList.get("stripe-signature") as string;
+export async function POST(req: Request, res: NextApiResponse) {
+  const signature = req.headers.get("stripe-signature") as string;
 
   let event: Stripe.Event;
-  const body = await buffer(req);
-  console.log(signature, body);
+  const body = await req.text();
 
   try {
     event = stripe.webhooks.constructEvent(
@@ -27,6 +23,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       process.env.STRIPE_WEBHOOK_SECRET || ""
     );
   } catch (error: any) {
+    console.log(error.message);
     return NextResponse.error().status;
   }
 
